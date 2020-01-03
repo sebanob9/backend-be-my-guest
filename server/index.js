@@ -21,9 +21,9 @@ app.use(morgan('dev'));
 app.use(express.json()); // para poder interpretar los datos que llegan al servidor
 app.use(cors({origin: 'http://localhost:4200'}))
 
-//ROUTES
+//ROUTES --> aqui establecemos la ruta en la que se van a hacer las distintas consultas
 app.use('/api/guests',require('./routes/guests.routes'));
-app.use('/api',require('./routes/user.routes'));
+app.use('/api/users',require('./routes/user.routes'));
 
 // STARTING SERVER
 app.listen(app.get('port'), () => {
