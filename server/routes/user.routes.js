@@ -13,8 +13,8 @@ routerUser.get('/', (req, res) => res.send('Hello World'))
 // ---- SIGN UP ----
 // primero guardamos el usuario en la BD
 routerUser.post('/', async (req, res) => { // he QUITADO EL REGISTER Y LO DEJE VACIO PARA PROBAR
-    const { email, password } = req.body; // se guarda en una cosntante los datos que queremos, en caso de no querer todo el objeto que llega del req.body
-    const newUser = new User({ email: email, password: password });
+    const { email, password, phone, date, eventPlace, bride, groom, otherEvent } = req.body; // se guarda en una cosntante los datos que queremos, en caso de no querer todo el objeto que llega del req.body
+    const newUser = new User({ email: email, password: password, phone: phone, date:date, eventPlace:eventPlace, bride: bride, groom: groom, otherEvent: otherEvent});
     await newUser.save();
     // una vez guardado el usuario, creo un token
     const token = jwt.sign({ _id: newUser._id }, 'secretKey') // en una nueva propiedad _id, guardo de new user su propiedad _id -- palabra secreta para el _id

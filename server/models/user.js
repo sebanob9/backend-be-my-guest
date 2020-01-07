@@ -3,7 +3,14 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema ({
     email: String,
-    password: String
+    password: String,
+    phone: Number,
+    confirmPassword: String,
+    date: String,
+    eventPlace: String,
+    bride: String,
+    groom: String,
+    otherEvent: String
 }, {
     timestamps: true // para guardar fecha de creacion y modificacion
 }
