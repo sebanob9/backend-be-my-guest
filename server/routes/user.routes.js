@@ -29,8 +29,19 @@ routerUser.post('/login', async (req, res) => {
     if (!user) return res.status(401).send('El correo no está en la Base de Datos');
     if (user.password !== password) return res.status(401).send('Contraseña incorrecta');
     const token = jwt.sign({ _id: user._id }, 'secretKey')// se le puede devolver un token cuando ha pasado los filtros anteriores
-    res.status(200).json({ token }); // se devuelve este token al usuario cuando lo obtiene
+    res.status(200).json({ token, user }); // se devuelve este token al usuario cuando lo obtiene
 });
+
+routerUser.get('/:id', async(req, res) => {
+    let user = await User.findById(req.params.id).exec();
+    res.send(user);
+})
+
+routerUser.put('/:id', async(req, res) => {
+    let user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
+    console.log(req.body);
+    res.send(user);
+})
 
 //-- EJEMPLO ruta publica --
 routerUser.get('/tasks', (req, res) => {
@@ -90,6 +101,8 @@ function verifyToken(req, res, next) {
     req.userId = payload._id // guardamos el dato para que el resto de funciones puedan utilizarlo
     next();
 }
+
+
 
 module.exports = routerUser;
 /* Pasos:
