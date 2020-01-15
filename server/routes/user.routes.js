@@ -32,16 +32,59 @@ routerUser.post('/login', async (req, res) => {
     res.status(200).json({ token, user }); // se devuelve este token al usuario cuando lo obtiene
 });
 
+
+//
 routerUser.get('/:id', async(req, res) => {
     let user = await User.findById(req.params.id).exec();
     res.send(user);
 })
 
-routerUser.put('/:id', async(req, res) => {
+/* routerUser.put('/:id', async(req, res) => {
     let user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
     console.log(req.body);
     res.send(user);
+}) */
+
+routerUser.put(async(req, res) => {
+    const { id } = req.params;
+    const user = {
+        eventPlace: req.body.eventPlace,
+        phone:req.body.phone,
+        email:req.body.email,
+        date: req.body.date
+        }
+    await User.findByIdAndUpdate(id, {$set: user},{new:true});
+    res.json({
+        status:'Usuario actualizado'
+    });
 })
+
+
+
+
+// funcion para verificar en cara ruta si hay token o no. se pasa en cada ruta, es una ruta en si
+function verifyToken(req, res, next) {
+    if(!req.headers.authorization) { // si no tienes cabecera no puedes obtener los datos de la ruta que quieres visitar
+        return res.status(401).send('Peticion sin autorización');
+    }
+    const token = req.headers.authorization.split(' ')[1] // separamos el headers en el espacio para coger el token y no la palabra Bearer(bearer = 0, token =1)
+    if (token === 'null') { // comprobamos si el token está vacío
+        return res.status(401).send('Peticion sin autorización');
+        }
+// si hemos comprobado que hay cabecera y no está vacia, extraemos payload
+    const payload = jwt.verify(token, 'secretKey') // llave para obtener los datos de dentro del token. es la decodificacion del token
+        console.log(payload);
+    req.userId = payload._id // guardamos el dato para que el resto de funciones puedan utilizarlo
+    next();
+}
+
+
+
+module.exports = routerUser;
+/* Pasos:
+Revisamos si existe cabecera autorizacion
+Revisamos que el token no está vacio
+si no esta vacio, extraemos los datos y lo guardamos en userId. */
 
 //-- EJEMPLO ruta publica --
 routerUser.get('/tasks', (req, res) => {
@@ -86,26 +129,3 @@ routerUser.get('/private-tasks', verifyToken, (req,res) => {
     ])
 });
     
-// funcion para verificar en cara ruta si hay token o no. se pasa en cada ruta, es una ruta en si
-function verifyToken(req, res, next) {
-    if(!req.headers.authorization) { // si no tienes cabecera no puedes obtener los datos de la ruta que quieres visitar
-        return res.status(401).send('Peticion sin autorización');
-    }
-    const token = req.headers.authorization.split(' ')[1] // separamos el headers en el espacio para coger el token y no la palabra Bearer(bearer = 0, token =1)
-    if (token === 'null') { // comprobamos si el token está vacío
-        return res.status(401).send('Peticion sin autorización');
-        }
-// si hemos comprobado que hay cabecera y no está vacia, extraemos payload
-    const payload = jwt.verify(token, 'secretKey') // llave para obtener los datos de dentro del token. es la decodificacion del token
-        console.log(payload);
-    req.userId = payload._id // guardamos el dato para que el resto de funciones puedan utilizarlo
-    next();
-}
-
-
-
-module.exports = routerUser;
-/* Pasos:
-Revisamos si existe cabecera autorizacion
-Revisamos que el token no está vacio
-si no esta vacio, extraemos los datos y lo guardamos en userId. */
