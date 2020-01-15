@@ -1,4 +1,4 @@
-const passport = require('passport');
+/* const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/user');
@@ -44,4 +44,4 @@ passport.use('local-signin', new LocalStrategy({
     return done(null, false, req.flash('signinMessage', 'Incorrect Password'));
   }
   return done(null, user);
-}));
+})); */
