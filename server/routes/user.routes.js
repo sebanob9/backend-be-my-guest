@@ -45,18 +45,10 @@ routerUser.get('/:id', async(req, res) => {
     res.send(user);
 }) */
 
-routerUser.put(async(req, res) => {
-    const { id } = req.params;
-    const user = {
-        eventPlace: req.body.eventPlace,
-        phone:req.body.phone,
-        email:req.body.email,
-        date: req.body.date
-        }
-    await User.findByIdAndUpdate(id, {$set: user},{new:true});
-    res.json({
-        status:'Usuario actualizado'
-    });
+routerUser.put('/:id', async(req, res) => {
+    let user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
+    //.log(req.body);
+    res.send(user);
 })
 
 

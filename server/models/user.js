@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema ({
     email: String,
-    password: { type: String, required: true},
+    password: String,
     phone: Number,
     confirmPassword: String,
     date: String,
