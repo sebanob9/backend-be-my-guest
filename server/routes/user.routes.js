@@ -9,7 +9,7 @@ const User = require('../models/user');
 //----- JasonWebToken ----
 const jwt = require('jsonwebtoken');
 
-routerUser.get('/', (req, res) => res.send('Hello World'))
+routerUser.get('/', (req, res) => res.send('Be my Guest db'))
 
 // ---- SIGN UP ----
 // primero guardamos el usuario en la BD

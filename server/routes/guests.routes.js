@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // el modulo Router devuelve un objeto que se debe almacenar, en const router
+// las propiedades de este objeto son las rutas 
 
 // este controlador tiene todas las funciones que hemos creados en el guest.controller
 const guestControler = require('../controllers/guest.controller');

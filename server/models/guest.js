@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // se usa mongoose para definir esquemas
 const { Schema, model } = mongoose;
 
 const guestSchema = new Schema ({
