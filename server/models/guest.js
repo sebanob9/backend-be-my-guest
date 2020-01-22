@@ -12,7 +12,7 @@ const guestSchema = new Schema ({
     queso: { type: Boolean, required: true},
     marisco: { type: Boolean, required: true},
     pescado: { type: Boolean, required: true},
-    gluten: { type: Boolean, required: true},
+    gluten: { type: Boolean, required: true}
     //allergies: { type: String, required: true},
 })
 
